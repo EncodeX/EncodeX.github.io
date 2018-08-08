@@ -1,5 +1,7 @@
 # diip-in
 
+![](https://travis-ci.org/EncodeX/EncodeX.github.io.svg?branch=develop)
+
 ## Project setup
 ```
 npm install
