@@ -1,16 +1,12 @@
-
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const webpack = require('webpack');
 
 module.exports = {
   entry: {
     app: './src/main.js',
   },
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, '../dist'),
     publicPath: '/',
     filename: '[name].bundle.js',
   },
@@ -18,10 +14,9 @@ module.exports = {
     extensions: ['.ts', '.js', '.vue', '.json'],
     alias: {
       vue$: 'vue/dist/vue.esm.js',
-      '@': path.join(__dirname, 'src'),
+      '@': path.join(__dirname, '..', 'src'),
     },
   },
-  devtool: 'cheap-module-eval-source-map',
   module: {
     rules: [
       {
@@ -31,15 +26,16 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [path.join(__dirname, 'src'), path.join(__dirname, 'test')],
+        include: [path.join(__dirname, '..', 'src'), path.join(__dirname, '..', 'test')],
       },
       {
-        test: /\.ts$/,
+        test: /\.tsx?$/,
         loader: 'ts-loader',
+        exclude: /node_modules/,
         options: { appendTsSuffixTo: [/\.vue$/] },
       },
       {
-        test: /\.s(c|a)ss$/,
+        test: /\.sass$/,
         use: [
           'vue-style-loader',
           'css-loader',
@@ -52,11 +48,19 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        test: /\.scss$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'sass-loader',
+        ],
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|ico)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'public/img/[name].[hash:7].[ext]',
+          name: path.posix.join('/', 'public/img/[name].[hash:7].[ext]'),
         },
       },
       {
@@ -64,7 +68,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'public/media/[name].[hash:7].[ext]',
+          name: path.posix.join('/', 'public/media/[name].[hash:7].[ext]'),
         },
       },
       {
@@ -72,19 +76,12 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'public/fonts/[name].[hash:7].[ext]',
+          name: path.posix.join('/', 'public/fonts/[name].[hash:7].[ext]'),
         },
       },
     ],
   },
   plugins: [
     new VueLoaderPlugin(),
-    new HtmlWebpackPlugin({
-      file: 'index.html',
-      template: 'index.html',
-      inject: true,
-    }),
-    new CleanWebpackPlugin(['dist']),
-    new webpack.HotModuleReplacementPlugin(),
   ],
 };

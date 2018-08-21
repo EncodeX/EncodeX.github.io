@@ -1,19 +1,26 @@
 <template>
-  <div id="app">
-    TEST!
+  <div id="app" class="test">
+    {{msg}}
+    <hello-world :name="name" :initialEnthusiasm="5" />
   </div>
 </template>
 
-<script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
+<script lang="ts">
+import { Vue, Component } from "vue-property-decorator";
+import HelloWorld from "./components/HelloWorld.vue";
+
+@Component({
+  components: {
+    HelloWorld
   }
+})
+export default class App extends Vue {
+  msg: string = 'The first step of the app';
+  name: string = 'name???';
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="sass" scoped>
+.test
+  color: #f00
 </style>
