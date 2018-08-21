@@ -105,10 +105,12 @@ module.exports = merge(baseWebpackConfig, {
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../public'),
-        to: 'public',
+        to: './',
         ignore: ['.*'],
       },
     ]),
-    new CleanWebpackPlugin(['dist/*.*', 'dist/public']),
+    new CleanWebpackPlugin(['dist/*.*', 'dist/public'], {
+      root: path.resolve(__dirname, '..'),
+    }),
   ],
 });
