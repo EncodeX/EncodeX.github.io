@@ -20,7 +20,8 @@ module.exports = {
     'import/no-extraneous-dependencies': [
       'error',
       {}
-    ]
+    ],
+    "linebreak-style": ["error", "unix"]
   },
   plugins: ['html']
 };
