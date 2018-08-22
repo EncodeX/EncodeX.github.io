@@ -1,5 +1,6 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -20,8 +21,19 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.js$/,
+        loader: 'eslint-loader',
+        exclude: /node_modules/,
+        enforce: 'pre',
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader',
+        options: {
+          loaders: {
+            ts: 'ts-loader',
+          },
+        },
       },
       {
         test: /\.js$/,
@@ -32,7 +44,10 @@ module.exports = {
         test: /\.tsx?$/,
         loader: 'ts-loader',
         exclude: /node_modules/,
-        options: { appendTsSuffixTo: [/\.vue$/] },
+        options: {
+          appendTsSuffixTo: [/\.vue$/],
+          transpileOnly: true,
+        },
       },
       {
         test: /\.sass$/,
@@ -83,5 +98,11 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    new ForkTsCheckerWebpackPlugin({
+      vue: true,
+      tslint: path.join(__dirname, '..', 'tslint.json'),
+      tsconfig: path.join(__dirname, '..', 'tsconfig.json'),
+      formatter: 'codeframe',
+    }),
   ],
 };

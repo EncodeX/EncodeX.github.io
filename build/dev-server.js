@@ -7,6 +7,8 @@ const path = require('path');
 const port = 8099;
 const portfinder = require('portfinder');
 
+const reporter = require('./dev-server-reporter');
+
 portfinder.basePort = port;
 
 const app = express();
@@ -16,7 +18,8 @@ const compiler = webpack(config);
 
 const devMiddleware = webpackDevMiddleware(compiler, {
   publicPath: '/',
-  quiet: true,
+  logLevel: 'silent',
+  reporter,
 });
 
 const hotMiddleware = webpackHotMiddleware(compiler, {
