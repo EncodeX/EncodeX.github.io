@@ -23,9 +23,10 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator';
+import VueExtended from '../interfaces/VueExtended';
 
 @Component
-export default class Navigation extends Vue {
+export default class Navigation extends Vue implements VueExtended {
   // data
   navigation : object[] = [{
     label: '主页',
