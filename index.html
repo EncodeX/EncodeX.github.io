@@ -4,7 +4,7 @@
         console.log(redirect);
         if (redirect && redirect !== location.href) {
           console.log('replacing');
-          history.replaceState(null, null, redirect);
+          history.pushState(null, null, redirect);
           delete sessionStorage.redirect;
         }
       }
